@@ -81,6 +81,30 @@ make
 ```
 Run cmake with `-DCMAKE_BUILD_TYPE=RELEASE` to disable debugs enable `O3` flag and `-DCMAKE_BUILD_TYPE=RELEASE2` to also enable `-march=native`.
 
+## Usage example
+
+For usage in external programs `prog/exp.cpp` contains straightforward examples of how the functions can be called.
+
+Creating a graph with n vertices (from 1 to n inclusive) and m directed edges.
+```c++
+Graph *g = new Graph(n);
+for(int i=0; i<m; i++) {
+	int a, b;
+	input >> a >> b;
+	g->add_edge(a, b);
+}
+```
+
+The graph can then be passed to the solver, which returns a flowgraph.
+```c+++
+std::unique_ptr<Flowgraph<Edge::Minflow>> g2 = pflowk2(g);
+```
+
+Flow can then be decomposed to acquire a list of paths, each path being a list of vertice ids from the given input graph.
+```c+++
+std::vector<std::vector<int>> path_cover path = minflow_reduction_path_recover_faster(g2);
+```
+
 ## Running Experiments
 
 `build/prog/exp` can be used to run experiments, for more information use `-h` argument.
